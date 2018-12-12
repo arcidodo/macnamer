@@ -244,5 +244,5 @@ def checkin(request):
         this_length = len(the_computer.name)
         if this_length > length:
             length = this_length
-    c ={'name':computer.name, 'prefix':group.prefix, 'domain':group.domain, 'length':length, }
+    c ={'name':computer.name, 'prefix':group.prefix, 'domain':group.domain, 'manifest':group.name, 'length':length, }
     return HttpResponse(simplejson.dumps(c), mimetype="application/json")
