@@ -118,8 +118,10 @@ else:
     os.unlink(pidfile)
     data = response.read()
     data = json.loads(data)
+    print data
     name = data['name']
     manifest = data['manifest']
+    salkey = data['sal']
     prefix = data['prefix']
     domain = data['domain']
     length = data['length']
@@ -178,6 +180,15 @@ else:
             theprocess = "defaults write /Library/Preferences/ManagedInstalls.plist ClientIdentifier" + " " +manifest+ "/Default"
             p = subprocess.Popen(theprocess,shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE).communicate()[0]
 
+        #set sal key
+        theprocess = "defaults read /Library/Preferences/com.github.salopensource.sal key"
+        oldsalkey = subprocess.Popen(theprocess,shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE).communicate()[0].strip()
+
+        if oldsalkey == salkey:
+            print "Sal key is the same, no need to change"
+        else:
+            theprocess = "defaults write /Library/Preferences/com.github.salopensource.sal key" + " " +salkey
+            p = subprocess.Popen(theprocess,shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE).communicate()[0]
 
         ##if a domain is set, set the full hostname
         if domain:
