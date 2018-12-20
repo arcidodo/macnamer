@@ -118,7 +118,7 @@ else:
     os.unlink(pidfile)
     data = response.read()
     data = json.loads(data)
-    print data
+    # DEBUG print data
     name = data['name']
     manifest = data['manifest']
     salkey = data['sal']
